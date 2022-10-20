@@ -24,4 +24,5 @@ urlpatterns = [
     # index page
     path('attendance/', views.index, name='index'),
     path('attendance/list', views.attendance_list, name='attendance_list'),
+    path('attendance/input', views.attendance_input, name='attendance_input'),
 ]

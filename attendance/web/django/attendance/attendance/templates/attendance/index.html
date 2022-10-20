@@ -1,24 +1,51 @@
-<form name="frm" action="list">
+<form name="listFrm" action="list">
     <input type="date" id="dt" name="dt" value="2021-02-20" min="2022-01-01" max="2022-12-31">
-    <a href="#" onclick="onClick();">출석부 조회</a>
+    <a href="#" onclick="doSubmit(1);">출석부 조회</a>
+</form>
+<h3>수기 입력(for Test)</h3>
+<form name="inputFrm" action="input">
+    이름 : <input type="text" name="name"><br/>
+    날짜 : <input type="date" name="dt">
+    <a href="#" onclick="doSubmit(2)">출석하기</a>
 </form>
 
 <script>
     // window 로드 시, 실행
     window.onload = function() {
+        // 현재 날짜를 가져와서 
+        var today = getToday()
+        document.listFrm.dt.value = today
+        document.inputFrm.dt.value = today
+
+        {% if inputSuccYn == 'Y' %}
+        alert('출석을 성공하였습니다.')
+        {% elif inputSuccYn == 'N' %}
+        alert('해당일에는 이미 출석하였습니다.')
+        {% endif %}
+    }
+    
+    // 현재 날짜 YYYY-MM-dd 형식으로 가져오기
+    function getToday() {
         date = new Date();
         year = date.getFullYear();
         month = ('0' + (date.getMonth() + 1)).slice(-2);
         day = ('0' + date.getDate()).slice(-2);
         dateStr = year + '-' + month + '-' + day;
-        // 현재 날짜 YYYY-MM-dd 형식으로 가져오기
-        document.querySelector('#dt').value = dateStr
+        return dateStr
     }
-    
+
     // 클릭시 callback
-    function onClick()
-    {
+    function doSubmit(flag) {
         // submit to server
-        document.frm.submit();
-    }
+        if(flag == 1) {
+            document.listFrm.submit();
+        } else if(flag == 2) {
+            frm = document.inputFrm;
+            if(frm.name.value.length < 1) {
+                alert('이름의 길이가 짧습니다.')
+                return;
+            }
+            //document.inputFrm.submit();
+        }
+    }   
 </script>

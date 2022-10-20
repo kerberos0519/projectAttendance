@@ -77,6 +77,20 @@ def insertAttendance(name):
     dbClose()
     print('[End] insert table')
 
+# 출석 데이터 추가
+def insertAttendanceTest(name, dt):
+    dbOpen()
+
+    print('[Start] insert table')
+    query = "INSERT INTO attendance (name, create_dt) VALUES ('"+ name +"', '"+ dt +"')"
+    print('\tQuery : '+ query)
+    cur.execute(query)
+    
+    # db 저장
+    conn.commit()
+    dbClose()
+    print('[End] insert table')
+
 # 출석 데이터 수정(쓸일이 있을려나)
 def updateAttendance(id, name):
     dbOpen()
@@ -172,7 +186,7 @@ def doAttend(name, dt):
     # 출석 여부 판별
     if isAttended(name, dt) == False:
         # db에 넣기
-        insertAttendance(name)
+        insertAttendanceTest(name, dt)
     else :
         raise Exception('Alreay exist in today')
 

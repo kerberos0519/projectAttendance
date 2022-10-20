@@ -39,3 +39,22 @@ def attendance_list(request):
             {'no':5, 'name':'ljs', 'create_dt':'2022-10-19 08:35:20'}
         ]
     '''
+
+def attendance_input(request):
+    if request.method == 'GET':
+        name = request.GET['name']
+        dt = request.GET['dt']
+
+        resultYn = ''
+
+        try:
+            db.doAttend(name, dt)
+            resultYn = 'Y'
+        except :
+            resultYn = 'N'
+
+        template = loader.get_template('attendance/index.html')
+        context = {
+            'inputSuccYn' : resultYn
+        }
+        return HttpResponse(template.render(context, request))
