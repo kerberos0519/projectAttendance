@@ -1,0 +1,22 @@
+<h1>This is Template Test Page !</h1>
+<h3>2022-10-19's attendance</h3>
+<table border="1">
+{% if attendanceList %}
+    <tr>
+        <td>no</td>
+        <td>name</td>
+        <td>create_dt</td>
+    </tr>
+    {% for row in attendanceList %}
+    <tr>
+        <td>{{ row.no }}</td>
+        <td>{{ row.name }}</td>
+        <td>{{ row.create_dt}}</td>
+    </tr>
+    {% endfor %}
+{% else %}
+<tr>
+    <td colspan="3">data is not exist !!!</td>
+</tr>
+{% endif %}
+</table>

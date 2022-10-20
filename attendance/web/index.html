@@ -1,0 +1,50 @@
+<html>
+<head>
+	<style>
+		ul { list-style:none; }
+	</style>
+</head>
+<body>
+	<h2>출석체크 프로그램 만들기 flow ?</h2>
+	<ol>
+		<li>
+			이미지 촬영하여 파일로 저장(가능하면, 출석체크할 당시의 이미지와 최대한 비슷하게), 여러장으로...
+		</li>
+		<li>
+			Teachable Machine 홈페이지에 가서 이미지를 올리고 클래스를 등록한다.<br/>
+			tensorflow 소스와 모델을 다운로드 한다.
+		</li>
+		<li>
+			[python 관련 설치]<br/>
+			pip install keras<br/>
+			pip install tensorflow<br/>
+			pip install Pillow<br/>
+			pip install opencv-python<br/>
+			pip install pysqlite3<br/>
+			pip install pandas (선택)<br/>
+		</li>
+		<li>
+			Teachable Machine에서 다운받은 소스를 수정하여 실행한다.
+			<p/>
+			웹캠에서 찍은 사진을 파일로 저장한다.
+			사진 파일을 tensorflow 소스에 넣고 비교한다.
+			
+			비교 결과에 따라,<br/>
+			
+			특정 클래스를 만족한다면, sqlite3를 이용하여 DB에 저장한다.<br/>
+			create table Attendance (
+				no integer,
+				name text,
+				date text
+			)
+			
+			만족하지 않는다면, 해당하는 메세지를 알려준다.<br/>
+		</li>
+		<li>
+			view page는 tkinter <br/>
+			or <br/>
+			웹페이지(FastAPI, django, flask 등)를 만들어서 표시한다.<br/>
+		</li>
+	</ol>
+</body>
+</html>
