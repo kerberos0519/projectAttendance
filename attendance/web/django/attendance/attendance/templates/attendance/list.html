@@ -1,5 +1,4 @@
-<h1>This is Template Test Page !</h1>
-<h3>2022-10-19's attendance</h3>
+<h3>{{ dt }}'s attendance list</h3>
 <table border="1">
 {% if attendanceList %}
     <tr>
@@ -9,9 +8,9 @@
     </tr>
     {% for row in attendanceList %}
     <tr>
-        <td>{{ row.no }}</td>
-        <td>{{ row.name }}</td>
-        <td>{{ row.create_dt}}</td>
+        <td>{{ row.0 }}</td>
+        <td>{{ row.1 }}</td>
+        <td>{{ row.2 }}</td>
     </tr>
     {% endfor %}
 {% else %}

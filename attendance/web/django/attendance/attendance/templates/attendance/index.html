@@ -1,1 +1,24 @@
-<a href="list">출석부 조회</a>
+<form name="frm" action="list">
+    <input type="date" id="dt" name="dt" value="2021-02-20" min="2022-01-01" max="2022-12-31">
+    <a href="#" onclick="onClick();">출석부 조회</a>
+</form>
+
+<script>
+    // window 로드 시, 실행
+    window.onload = function() {
+        date = new Date();
+        year = date.getFullYear();
+        month = ('0' + (date.getMonth() + 1)).slice(-2);
+        day = ('0' + date.getDate()).slice(-2);
+        dateStr = year + '-' + month + '-' + day;
+        // 현재 날짜 YYYY-MM-dd 형식으로 가져오기
+        document.querySelector('#dt').value = dateStr
+    }
+    
+    // 클릭시 callback
+    function onClick()
+    {
+        // submit to server
+        document.frm.submit();
+    }
+</script>
