@@ -1,3 +1,6 @@
+###############################################
+# django 관련 및 웹페이지 처리
+###############################################
 from django.http import HttpResponse
 from django.urls import URLPattern
 from django.http import HttpResponse
