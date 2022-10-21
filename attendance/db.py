@@ -35,6 +35,7 @@ def createAttendanceTable():
     conn.execute(query)
     dbClose()
     # print('[End] create table')
+
 # 테이블 드랍(삭제)
 def dropAttendanceTable():
     # 테이블이 있을 경우, 드랍
@@ -58,7 +59,7 @@ def insertAttendance(name):
     dbOpen()
 
     print('[Start] insert table')
-    query = "INSERT INTO attendance (name, create_dt)VALUES ('"+ name +"', '"+ commonutil.getNowDate() +"')"
+    query = "INSERT INTO attendance (name, create_dt)VALUES ('"+ name +"', datetime('now','localtime'))"
     print('\tQuery : '+ query)
     cur.execute(query)
     
@@ -191,10 +192,3 @@ def doAttend(name, dt):
         raise Exception('Alreay exist in today')
 
     dbClose()
-
-# test
-def test():
-    createAttendanceTable()
-    insertAttendance("kjh")
-    # updateAttendance(1, "hgd")
-    selectAttendanceOne('kjh', '2022-10-19')

@@ -1,0 +1,21 @@
+<h3>{{ dt }}'s attendance list</h3>
+<table border="1" width="50%" cellspacing="0">
+    <tr>
+        <th>No</th>
+        <th>Name</th>
+        <th>Create_dt</th>
+    </tr>
+    {% if attendanceList %}
+        {% for row in attendanceList %}
+    <tr>
+        <td>{{ row.0 }}</td>
+        <td>{{ row.1 }}</td>
+        <td>{{ row.2 }}</td>
+    </tr>
+        {% endfor %}
+    {% else %}
+    <tr>
+        <td colspan="3" align="center">data is not exist !!!</td>
+    </tr>
+    {% endif %}
+</table>
