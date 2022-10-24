@@ -2,6 +2,7 @@
 # django 관련 및 웹페이지 처리
 ###############################################
 from django.http import HttpResponse
+from django.shortcuts import redirect
 from django.urls import URLPattern
 from django.http import HttpResponse
 from django.template import loader
@@ -12,11 +13,12 @@ sys.path.append('I:/AI/kjh/dev/python/src/projectAttendance/attendance')
 
 import db
 
+def root(request):
+    return redirect('attendance/')
+
 def index(request):
     template = loader.get_template('attendance/index.html')
-    context = {
-        'list_test': ['a', 'b', 'c', 'd'],
-    }
+    context = {}
     return HttpResponse(template.render(context, request))
 
 def attendance_list(request):
@@ -39,7 +41,7 @@ def attendance_list(request):
                 'dt' : '',
                 'attendanceYn' : '-'
             }
-            # {1, 'kjh', '2022-10-19 08:59:59')
+            # (1, 'kjh', '2022-10-19 08:59:59')
             for j in rows:
                 if j[1] == name:
                     dt = j[2]

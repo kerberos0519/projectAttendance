@@ -38,7 +38,7 @@ def processingCam():
 
         # Resize the raw image into (224-height,224-width) pixels.
         image = cv2.resize(image, (224, 224), interpolation=cv2.INTER_AREA)
-
+        '''
         imageTemp = cv2.resize(image,dsize=None,fx=1.0,fy=1.0)
         # 그레이 스케일 변환
         gray = cv2.cvtColor(imageTemp, cv2.COLOR_BGR2GRAY)
@@ -55,7 +55,7 @@ def processingCam():
             x, y, w, h = box
             # 경계 상자 그리기
             cv2.rectangle(image, (x,y), (x+w, y+h), (255,255,255), thickness=2)
-
+        '''
         cv2.putText(image, outText, (0,40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0))
 
         # Show the image in a window
