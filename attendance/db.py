@@ -83,7 +83,7 @@ def insertAttendanceTest(name, dt):
     dbOpen()
 
     print('[Start] insert table')
-    query = "INSERT INTO attendance (name, create_dt) VALUES ('"+ name +"', '"+ dt +"')"
+    query = "INSERT INTO attendance (name, create_dt) VALUES ('"+ name +"', datetime('now', 'localtime'))"
     print('\tQuery : '+ query)
     cur.execute(query)
     

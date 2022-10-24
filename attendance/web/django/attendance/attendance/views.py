@@ -1,7 +1,7 @@
 ###############################################
 # django 관련 및 웹페이지 처리
 ###############################################
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from django.urls import URLPattern
 from django.http import HttpResponse
@@ -55,6 +55,40 @@ def attendance_list(request):
             'dt' : dt,
         }
         return HttpResponse(template.render(context, request))
+
+def attendance_list_json(request):
+    if request.method == 'GET':
+        dt = request.GET['dt']
+
+        rows = db.selectAttendanceByDate(dt)
+        print(rows)
+
+        peopleList = ['김준호', '정이', '윤예원', '김시민', '정현준', '이중석', '허호준', '정현재']
+
+        attendanceList = []
+
+        cnt = 0
+        for name in peopleList:
+            cnt += 1
+            dict = {
+                'no' : cnt,
+                'name' : name,
+                'dt' : '',
+                'attendanceYn' : '-'
+            }
+            # (1, 'kjh', '2022-10-19 08:59:59')
+            for j in rows:
+                if j[1] == name:
+                    dt = j[2]
+                    dict['dt'] = dt
+
+            attendanceList.append(dict)
+
+        context = {
+            'attendanceList': attendanceList,
+            'dt' : dt,
+        }
+        return JsonResponse(context)
 
 def attendance_input(request):
     if request.method == 'GET':

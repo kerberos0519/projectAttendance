@@ -25,5 +25,6 @@ urlpatterns = [
     path('', views.root, name='root'),
     path('attendance/', views.index, name='index'),
     path('attendance/list', views.attendance_list, name='attendance_list'),
+    path('attendance/list/json', views.attendance_list_json, name='attendance_list_json'),
     path('attendance/input', views.attendance_input, name='attendance_input'),
 ]
