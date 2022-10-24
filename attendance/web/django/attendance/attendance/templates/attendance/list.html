@@ -4,13 +4,15 @@
         <th>No</th>
         <th>Name</th>
         <th>Create_dt</th>
+        <th>Yn</th>
     </tr>
     {% if attendanceList %}
         {% for row in attendanceList %}
     <tr>
-        <td>{{ row.0 }}</td>
-        <td>{{ row.1 }}</td>
-        <td>{{ row.2 }}</td>
+        <td>{{ row.no }}</td>
+        <td>{{ row.name }}</td>
+        <td>{{ row.dt }}</td>
+        <td>{{ row.attendanceYn }}</td>
     </tr>
         {% endfor %}
     {% else %}

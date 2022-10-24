@@ -8,7 +8,7 @@ from django.template import loader
 
 import sys
 sys.path.append('.')
-sys.path.append('D:/AI/dev/python/src/projectAttendance/attendance')
+sys.path.append('I:/AI/kjh/dev/python/src/projectAttendance/attendance')
 
 import db
 
@@ -26,22 +26,33 @@ def attendance_list(request):
         rows = db.selectAttendanceByDate(dt)
         print(rows)
 
+        peopleList = ['김준호', '정이', '윤예원', '김시민', '정현준', '이중석', '허호준', '정현재']
+
+        attendanceList = []
+
+        cnt = 0
+        for name in peopleList:
+            cnt += 1
+            dict = {
+                'no' : cnt,
+                'name' : name,
+                'dt' : '',
+                'attendanceYn' : '-'
+            }
+            # {1, 'kjh', '2022-10-19 08:59:59')
+            for j in rows:
+                if j[1] == name:
+                    dt = j[2]
+                    dict['dt'] = dt
+
+            attendanceList.append(dict)
+
         template = loader.get_template('attendance/list.html')
         context = {
-            'attendanceList': rows,
-            'dt' : dt
+            'attendanceList': attendanceList,
+            'dt' : dt,
         }
         return HttpResponse(template.render(context, request))
-
-    '''
-        [
-            {'no':1, 'name':'kjh', 'create_dt':'2022-10-19 08:59:59'},
-            {'no':2, 'name':'kjs', 'create_dt':'2022-10-19 08:45:34'},
-            {'no':3, 'name':'jhj', 'create_dt':'2022-10-19 08:40:15'},
-            {'no':4, 'name':'yyw', 'create_dt':'2022-10-19 08:30:12'},
-            {'no':5, 'name':'ljs', 'create_dt':'2022-10-19 08:35:20'}
-        ]
-    '''
 
 def attendance_input(request):
     if request.method == 'GET':
