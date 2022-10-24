@@ -7,6 +7,7 @@ from django.urls import URLPattern
 from django.http import HttpResponse
 from django.template import loader
 
+from datetime import datetime
 import sys
 sys.path.append('.')
 sys.path.append('I:/AI/kjh/dev/python/src/projectAttendance/attendance')
@@ -46,6 +47,26 @@ def attendance_list(request):
                 if j[1] == name:
                     dt = j[2]
                     dict['dt'] = dt
+                    # 시간 계산
+                    d1 = datetime.strptime("2022-10-24 09:00:00", "%Y-%m-%d %H:%M:%S")
+                    d2 = datetime.strptime(dt, "%Y-%m-%d %H:%M:%S")
+                    diff = d1 - d2
+                    if diff > 0:
+                        # 일찍 옴
+                        pass
+                    else:
+                        # 늦게 옴
+                        pass
+                    diffSec = diff.total_seconds()
+                    if diffSec / 3600 < 1:
+                        # 출석
+                        # 'attendanceYn' : '1'
+                        nmjDiff = diffSec % 3600
+
+                    else:
+                        # 지각
+                        # 'attendanceYn' : '2'
+                        pass
 
             attendanceList.append(dict)
 
