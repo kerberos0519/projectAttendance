@@ -93,7 +93,7 @@ def processingCam():
 
         if resultDict['maxPb'] >= 90:
             try :
-                # db 입력 처리 - 임시로 DB 입력은 안함
+                # db 입력 처리
                 db.doAttend(resultDict['maxName'], commonutil.getNowDateYmd())
                 # 0.5초 대기(연속 입력 저지)
                 outText = resultDict['maxName'] +"님의 출석이 완료되었습니다."

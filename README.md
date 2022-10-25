@@ -15,9 +15,7 @@ TM을 이용한 얼굴인식 출석체크
 #### 수정되어야할 부분(자신의 경로에 맞게 수정) - [향후, 수정 예정]
 ###### projectAttendance/attendance/commonutil.py 파일에서
     9행  : rootPath = "I:/AI/kjh/dev/python/src/projectAttendance/attendance"
-###### projectAttendance/attendance/web/django/attendance/attendance/settings.py 파일에서
-    23행 : SECRET_KEY = '발급받은 키 넣어야함'
-###### projectAttendance/attendance/web/django/attendance/attendance/views.py 파일에
+###### projectAttendance/attendance/web/django/attendance/attendance/views.py 파일에서
     11행 : sys.path.append('D:/AI/dev/python/src/projectAttendance/attendance')
 
 ### 실행
