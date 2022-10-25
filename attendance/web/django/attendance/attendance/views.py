@@ -50,6 +50,7 @@ def attendance_list(request):
                     
                     # 저장된 dt 값이 2022-10-25 09:30:10 형식의 길이일 경우
                     if len(dt) == 19:
+                        # YYYY-MM-dd 형태로 파싱
                         dtYmd = dt[0:10]
                         d1 = datetime.strptime(dtYmd +" 09:00:00", "%Y-%m-%d %H:%M:%S")
                         d2 = datetime.strptime(dt, "%Y-%m-%d %H:%M:%S")
@@ -105,6 +106,7 @@ def attendance_list_json(request):
                     
                     # 저장된 dt 값이 2022-10-25 09:30:10 형식의 길이일 경우
                     if len(dt) == 19:
+                        # YYYY-MM-dd 형태로 파싱
                         dtYmd = dt[0:10]
                         d1 = datetime.strptime(dtYmd +" 09:00:00", "%Y-%m-%d %H:%M:%S")
                         d2 = datetime.strptime(dt, "%Y-%m-%d %H:%M:%S")
@@ -125,7 +127,6 @@ def attendance_list_json(request):
 
             attendanceList.append(dict)
 
-        template = loader.get_template('attendance/list.html')
         context = {
             'attendanceList': attendanceList,
             'dt' : dtYmd,
