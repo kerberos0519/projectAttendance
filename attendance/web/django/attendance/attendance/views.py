@@ -54,9 +54,10 @@ def attendance_list(request):
                         dtYmd = dt[0:10]
                         d1 = datetime.strptime(dtYmd +" 09:00:00", "%Y-%m-%d %H:%M:%S")
                         d2 = datetime.strptime(dt, "%Y-%m-%d %H:%M:%S")
-                        diff = d1 - d2
+                        diff = d2 - d1
                         diffSec = diff.total_seconds()
-                        if diffSec >= 0:
+                        print(diffSec)
+                        if diffSec <= 0:
                             # 일찍 옴
                             dict['attendanceYn'] = '1'
                         else:
@@ -110,9 +111,9 @@ def attendance_list_json(request):
                         dtYmd = dt[0:10]
                         d1 = datetime.strptime(dtYmd +" 09:00:00", "%Y-%m-%d %H:%M:%S")
                         d2 = datetime.strptime(dt, "%Y-%m-%d %H:%M:%S")
-                        diff = d1 - d2
+                        diff = d2 - d1
                         diffSec = diff.total_seconds()
-                        if diffSec >= 0:
+                        if diffSec <= 0:
                             # 일찍 옴
                             dict['attendanceYn'] = '1'
                         else:
