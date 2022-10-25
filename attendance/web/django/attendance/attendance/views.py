@@ -47,25 +47,25 @@ def attendance_list(request):
                 if j[1] == name:
                     dt = j[2]
                     dict['dt'] = dt
-                    # 시간 계산
-                    d1 = datetime.strptime("2022-10-24 09:00:00", "%Y-%m-%d %H:%M:%S")
-                    d2 = datetime.strptime(dt, "%Y-%m-%d %H:%M:%S")
-                    diff = d1 - d2
-                    if diff > 0:
-                        # 일찍 옴
-                        pass
-                    else:
-                        # 늦게 옴
-                        pass
-                    diffSec = diff.total_seconds()
-                    if diffSec / 3600 < 1:
-                        # 출석
-                        # 'attendanceYn' : '1'
-                        nmjDiff = diffSec % 3600
+                    
+                    # 저장된 dt 값이 2022-10-25 09:30:10 형식의 길이일 경우
+                    if len(dt) == 19:
+                        dtYmd = dt[0:10]
+                        d1 = datetime.strptime(dtYmd +" 09:00:00", "%Y-%m-%d %H:%M:%S")
+                        d2 = datetime.strptime(dt, "%Y-%m-%d %H:%M:%S")
+                        diff = d1 - d2
+                        diffSec = diff.total_seconds()
+                        if diffSec >= 0:
+                            # 일찍 옴
+                            dict['attendanceYn'] = '1'
+                        else:
+                            # 늦게 옴
+                            dict['attendanceYn'] = '2'
 
+                            if diffSec / 3600 >= 4:
+                                # 4시간 넘으면, 결석
+                                dict['attendanceYn'] = '3'
                     else:
-                        # 지각
-                        # 'attendanceYn' : '2'
                         pass
 
             attendanceList.append(dict)
