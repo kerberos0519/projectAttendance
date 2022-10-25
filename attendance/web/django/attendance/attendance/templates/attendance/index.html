@@ -5,7 +5,8 @@
 <body>
     <form name="listFrm" action="list">
         <input type="date" id="dt" name="dt" value="2021-02-20" min="2022-01-01" max="2022-12-31">
-        <a href="#" onclick="doSubmit(1);"><button type="button" class="btn btn-outline-primary">출석부 조회</button></a>
+        <a href="#" onclick="doSubmit(1);"><button type="button" class="btn btn-outline-primary">출석부 조회(다른 페이지에서 표시)</button></a>
+        <a href="#" onclick="doSearch();"><button type="button" class="btn btn-outline-primary">출석부 조회(아래 표시)</button></a>
     </form>
 
     <h3>수기 입력(for Test)</h3>
@@ -14,6 +15,7 @@
         날짜 : <input type="date" name="dt">
         <a href="#" onclick="doSubmit(2)"><button type="button" class="btn btn-outline-primary">출석부 입력</button></a>
     </form>
+    <div id="result"></div>
     <script>
         // window 로드 시, 실행
         window.onload = function() {
@@ -53,6 +55,86 @@
                 document.inputFrm.submit();
             }
         }   
+
+        /**
+         * Ajax 통신
+         * 
+         * @method - 'GET', 'POST'
+         * @url - 
+         * @isAsync - ture or false
+         * @cbSuccess - callback success function
+         * @cbFail - callback fail function
+         **/
+        function doAjax(method, url, isAsync, cbSuccess, cbFail) {
+            //XMLHttpRequest 객체 생성
+            var xhr = new XMLHttpRequest();
+            //요청을 보낼 방식, url, 비동기여부 설정
+            xhr.open(method, url, isAsync);
+
+            //요청 전송
+            xhr.send();
+
+            //Callback
+            xhr.onload = () => {
+                if (xhr.status == 200) {
+                    //success
+                    cbSuccess(xhr.response)
+                } else {
+                    //failed
+                    cbFail(xhr)
+                }
+            }
+        }
+        
+        /**
+         * ajax 통신으로 출석 결과 받아오기
+         **/
+        function doSearch() {
+            var dt = document.listFrm.dt.value;
+            doAjax('GET', '/attendance/list/json?dt='+ dt, true
+            , function(resp) {
+                // clear
+                document.querySelector("#result").innerHTML = ''
+
+                var respJson = JSON.parse(resp)
+                var dt = respJson.dt
+                var attendanceList = respJson.attendanceList
+                var strHtml = '<h3>'+ dt +'\'s 출석부 리스트</h3>'
+                strHtml += '<table class="table">'
+                strHtml += '<tr class="table-primary">'
+                strHtml += '<th>No</th>'
+                strHtml += '<th>성명</th>'
+                strHtml += '<th>출석 일자</th>'
+                strHtml += '<th>출석상태</th>'
+                strHtml += '</tr>'
+                for(var i=0; i<attendanceList.length; i++) {
+                    var o = attendanceList[i]
+                    strHtml += '<tr>'
+                    strHtml += '<td>'+ o.no +'</td>'
+                    strHtml += '<td>'+ o.name +'</td>'
+                    strHtml += '<td>'+ o.dt +'</td>'
+                    //strHtml += '<td>'+ o.attendanceYn +'</td>'
+                    if(o.attendanceYn == '1') {
+                        strHtml += '<td><span class="badge rounded-pill text-bg-primary">출석</span>'
+                    } else if(o.attendanceYn == '2') {
+                        strHtml += '<td><span class="badge rounded-pill text-bg-warning">지각</span>'
+                    } else if(o.attendanceYn == '3') {
+                        strHtml += '<td><span class="badge rounded-pill text-bg-danger">결석</span>'
+                    } else {
+                        strHtml += '<td><span class="badge rounded-pill text-bg-secondary">미출석</span>'
+                    }
+                    
+                    strHtml += '</tr>'
+                }
+                strHtml += '</table>'
+
+                document.querySelector("#result").innerHTML = strHtml
+
+            }, function(xhr) {
+                console.log(xhr)
+                document.querySelector("#result").innerHTML = 'Error Occured'
+            })
+        }
     </script>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
