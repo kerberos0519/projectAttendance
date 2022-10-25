@@ -1,52 +1,59 @@
-<form name="listFrm" action="list">
-    <input type="date" id="dt" name="dt" value="2021-02-20" min="2022-01-01" max="2022-12-31">
-    <a href="#" onclick="doSubmit(1);">출석부 조회</a>
-</form>
+<html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+<body>
+    <form name="listFrm" action="list">
+        <input type="date" id="dt" name="dt" value="2021-02-20" min="2022-01-01" max="2022-12-31">
+        <a href="#" onclick="doSubmit(1);"><button type="button" class="btn btn-outline-primary">출석부 조회</button></a>
+    </form>
 
-<h3>수기 입력(for Test)</h3>
-<form name="inputFrm" action="input">
-    이름 : <input type="text" name="name"><br/>
-    날짜 : <input type="date" name="dt">
-    <a href="#" onclick="doSubmit(2)">출석하기</a>
-</form>
+    <h3>수기 입력(for Test)</h3>
+    <form name="inputFrm" action="input">
+        이름 : <input type="text" name="name"><br/>
+        날짜 : <input type="date" name="dt">
+        <a href="#" onclick="doSubmit(2)"><button type="button" class="btn btn-outline-primary">출석부 입력</button></a>
+    </form>
+    <script>
+        // window 로드 시, 실행
+        window.onload = function() {
+            // 현재 날짜를 가져와서 
+            var today = getToday()
+            document.listFrm.dt.value = today
+            document.inputFrm.dt.value = today
 
-<script>
-    // window 로드 시, 실행
-    window.onload = function() {
-        // 현재 날짜를 가져와서 
-        var today = getToday()
-        document.listFrm.dt.value = today
-        document.inputFrm.dt.value = today
-
-        {% if inputSuccYn == 'Y' %}
-        alert('출석을 성공하였습니다.')
-        {% elif inputSuccYn == 'N' %}
-        alert('해당일에는 이미 출석하였습니다.')
-        {% endif %}
-    }
-    
-    // 현재 날짜 YYYY-MM-dd 형식으로 가져오기
-    function getToday() {
-        date = new Date();
-        year = date.getFullYear();
-        month = ('0' + (date.getMonth() + 1)).slice(-2);
-        day = ('0' + date.getDate()).slice(-2);
-        dateStr = year + '-' + month + '-' + day;
-        return dateStr
-    }
-
-    // 클릭시 callback
-    function doSubmit(flag) {
-        // submit to server
-        if(flag == 1) {
-            document.listFrm.submit();
-        } else if(flag == 2) {
-            frm = document.inputFrm;
-            if(frm.name.value.length < 1) {
-                alert('이름의 길이가 짧습니다.')
-                return;
-            }
-            document.inputFrm.submit();
+            {% if inputSuccYn == 'Y' %}
+            alert('출석을 성공하였습니다.')
+            {% elif inputSuccYn == 'N' %}
+            alert('해당일에는 이미 출석하였습니다.')
+            {% endif %}
         }
-    }   
-</script>
+        
+        // 현재 날짜 YYYY-MM-dd 형식으로 가져오기
+        function getToday() {
+            date = new Date();
+            year = date.getFullYear();
+            month = ('0' + (date.getMonth() + 1)).slice(-2);
+            day = ('0' + date.getDate()).slice(-2);
+            dateStr = year + '-' + month + '-' + day;
+            return dateStr
+        }
+
+        // 클릭시 callback
+        function doSubmit(flag) {
+            // submit to server
+            if(flag == 1) {
+                document.listFrm.submit();
+            } else if(flag == 2) {
+                frm = document.inputFrm;
+                if(frm.name.value.length < 1) {
+                    alert('이름의 길이가 짧습니다.')
+                    return;
+                }
+                document.inputFrm.submit();
+            }
+        }   
+    </script>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+</html>
