@@ -2,9 +2,9 @@
 <table border="1" width="50%" cellspacing="0">
     <tr>
         <th>No</th>
-        <th>Name</th>
-        <th>Create_dt</th>
-        <th>Yn</th>
+        <th>성명</th>
+        <th>출석 일자</th>
+        <th>출석 상태</th>
     </tr>
     {% if attendanceList %}
         {% for row in attendanceList %}
@@ -14,11 +14,11 @@
         <td>{{ row.dt }}</td>
         <td>
             {% if row.attendanceYn == '1' %}
-            출석
+            <font color="blue">출석</font>
             {% elif row.attendanceYn == '2' %}
-            지각
+            <font color="yellow">지각</font>
             {% elif row.attendanceYn == '3' %}
-            결석
+            <font color="red">결석</font>
             {% else %}
             미출석
             {% endif %}
