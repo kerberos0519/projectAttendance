@@ -41,10 +41,10 @@ def processingCam():
             print("Camera can't intialized...")
             return
 
-        # Resize the raw image into (224-height,224-width) pixels.
-        image = cv2.resize(image, (224, 224), interpolation=cv2.INTER_AREA)
-        
-        imageTemp = cv2.resize(image,dsize=None,fx=1.0,fy=1.0)
+        # cv2.putText(image, outText, (0,40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0))
+        imageTemp = putCustomText(image, outText, (0,0), 20, (0,255,0))
+
+        imageTemp = cv2.resize(imageTemp,dsize=None,fx=1.0,fy=1.0)
         # 그레이 스케일 변환
         gray = cv2.cvtColor(imageTemp, cv2.COLOR_BGR2GRAY)
         # cascade 얼굴 탐지 알고리즘 
@@ -59,13 +59,13 @@ def processingCam():
             # 좌표 추출       
             x, y, w, h = box
             # 경계 상자 그리기
-            cv2.rectangle(image, (x,y), (x+w, y+h), (255,255,255), thickness=2)
-        
-        # cv2.putText(image, outText, (0,40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0))
-        image = putCustomText(image, outText, (0,0), 20, (0,255,0))
+            cv2.rectangle(imageTemp, (x,y), (x+w, y+h), (255,255,255), thickness=2)
 
         # Show the image in a window
-        cv2.imshow('Webcam Image', image)
+        cv2.imshow('Webcam Image', imageTemp)
+
+        # Resize the raw image into (224-height,224-width) pixels.
+        image = cv2.resize(image, (224, 224), interpolation=cv2.INTER_AREA)
 
         # Make the image a numpy array and reshape it to the models input shape.
         image = np.asarray(image, dtype=np.float32).reshape(1, 224, 224, 3)
@@ -96,8 +96,8 @@ def processingCam():
                 # db 입력 처리 - 임시로 DB 입력은 안함
                 db.doAttend(resultDict['maxName'], commonutil.getNowDateYmd())
                 # 0.5초 대기(연속 입력 저지)
+                outText = resultDict['maxName'] +"님의 출석이 완료되었습니다."
                 time.sleep(0.5)
-                pass
             except :
                 outText = resultDict['maxName'] +"님은 이미 출석 완료"
 
