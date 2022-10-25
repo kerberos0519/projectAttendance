@@ -3,6 +3,8 @@
 #######################
 import sqlite3
 import pandas as pd
+from datetime import datetime
+
 import commonutil
 
 # DB 관련 파일
@@ -83,7 +85,11 @@ def insertAttendanceTest(name, dt):
     dbOpen()
 
     print('[Start] insert table')
-    query = "INSERT INTO attendance (name, create_dt) VALUES ('"+ name +"', datetime('now', 'localtime'))"
+
+    now = datetime.now()
+    sNowHms = datetime.strftime(now, "%H:%M:%S")
+    sDt = dt + " "+sNowHms
+    query = "INSERT INTO attendance (name, create_dt) VALUES ('"+ name +"', '"+ sDt +"')"
     print('\tQuery : '+ query)
     cur.execute(query)
     

@@ -12,7 +12,17 @@
         <td>{{ row.no }}</td>
         <td>{{ row.name }}</td>
         <td>{{ row.dt }}</td>
-        <td>{{ row.attendanceYn }}</td>
+        <td>
+            {% if row.attendanceYn == '1' %}
+            출석
+            {% elif row.attendanceYn == '2' %}
+            지각
+            {% elif row.attendanceYn == '3' %}
+            결석
+            {% else %}
+            미출석
+            {% endif %}
+        </td>
     </tr>
         {% endfor %}
     {% else %}
