@@ -24,9 +24,9 @@ def index(request):
 
 def attendance_list(request):
     if request.method == 'GET':
-        dt = request.GET['dt']
+        dtYmd = request.GET['dt']
 
-        rows = db.selectAttendanceByDate(dt)
+        rows = db.selectAttendanceByDate(dtYmd)
         print(rows)
 
         peopleList = ['김준호', '정이', '윤예원', '김시민', '정현준', '이중석', '허호준', '정현재']
@@ -73,15 +73,15 @@ def attendance_list(request):
         template = loader.get_template('attendance/list.html')
         context = {
             'attendanceList': attendanceList,
-            'dt' : dt,
+            'dt' : dtYmd,
         }
         return HttpResponse(template.render(context, request))
 
 def attendance_list_json(request):
     if request.method == 'GET':
-        dt = request.GET['dt']
+        dtYmd = request.GET['dt']
 
-        rows = db.selectAttendanceByDate(dt)
+        rows = db.selectAttendanceByDate(dtYmd)
         print(rows)
 
         peopleList = ['김준호', '정이', '윤예원', '김시민', '정현준', '이중석', '허호준', '정현재']
@@ -102,12 +102,33 @@ def attendance_list_json(request):
                 if j[1] == name:
                     dt = j[2]
                     dict['dt'] = dt
+                    
+                    # 저장된 dt 값이 2022-10-25 09:30:10 형식의 길이일 경우
+                    if len(dt) == 19:
+                        dtYmd = dt[0:10]
+                        d1 = datetime.strptime(dtYmd +" 09:00:00", "%Y-%m-%d %H:%M:%S")
+                        d2 = datetime.strptime(dt, "%Y-%m-%d %H:%M:%S")
+                        diff = d1 - d2
+                        diffSec = diff.total_seconds()
+                        if diffSec >= 0:
+                            # 일찍 옴
+                            dict['attendanceYn'] = '1'
+                        else:
+                            # 늦게 옴
+                            dict['attendanceYn'] = '2'
+
+                            if diffSec / 3600 >= 4:
+                                # 4시간 넘으면, 결석
+                                dict['attendanceYn'] = '3'
+                    else:
+                        pass
 
             attendanceList.append(dict)
 
+        template = loader.get_template('attendance/list.html')
         context = {
             'attendanceList': attendanceList,
-            'dt' : dt,
+            'dt' : dtYmd,
         }
         return JsonResponse(context)
 
