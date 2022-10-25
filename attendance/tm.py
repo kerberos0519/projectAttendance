@@ -4,6 +4,7 @@
 import cv2
 import numpy as np
 from keras.models import load_model
+from PIL import ImageFont, ImageDraw, Image
 
 import time
 import commonutil
@@ -36,9 +37,13 @@ def processingCam():
         # Grab the webcameras image.
         ret, image = camera.read()
 
+        if ret == False:
+            print("Camera can't intialized...")
+            return
+
         # Resize the raw image into (224-height,224-width) pixels.
         image = cv2.resize(image, (224, 224), interpolation=cv2.INTER_AREA)
-        '''
+        
         imageTemp = cv2.resize(image,dsize=None,fx=1.0,fy=1.0)
         # 그레이 스케일 변환
         gray = cv2.cvtColor(imageTemp, cv2.COLOR_BGR2GRAY)
@@ -55,8 +60,9 @@ def processingCam():
             x, y, w, h = box
             # 경계 상자 그리기
             cv2.rectangle(image, (x,y), (x+w, y+h), (255,255,255), thickness=2)
-        '''
-        cv2.putText(image, outText, (0,40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0))
+        
+        # cv2.putText(image, outText, (0,40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0))
+        image = putCustomText(image, outText, (0,0), 20, (0,255,0))
 
         # Show the image in a window
         cv2.imshow('Webcam Image', image)
@@ -82,6 +88,8 @@ def processingCam():
 
         resultDict = {'maxPb':round(np.max(probabilities) * 100, 2), 'maxId':maxLabel[0], 'maxName':maxLabel[1]}
         print('주어진 모델 중 가장 높은 확률인 {0} % 확률로 {1} 으/로 추정'.format(resultDict['maxPb'], resultDict['maxName']))
+        
+        outText = str(resultDict['maxName']) +' 님일 확률 '+ str(resultDict['maxPb']) +' %'
 
         if resultDict['maxPb'] >= 90:
             try :
@@ -91,10 +99,7 @@ def processingCam():
                 time.sleep(0.5)
                 pass
             except :
-                # nop... T.T
-                cv2.putText(image, 'already attend today !!!', (0,80), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0))
-
-        outText = str(resultDict['maxId']) +' '+ str(resultDict['maxPb']) +' %'
+                outText = resultDict['maxName'] +"님은 이미 출석 완료"
 
         # Listen to the keyboard for presses.
         keyboard_input = cv2.waitKey(1)
@@ -108,5 +113,10 @@ def processingCam():
     camera.release()
     cv2.destroyAllWindows()
     
+def putCustomText(src, txt, pos, fontSize, fontColor):
+    imgPil = Image.fromarray(src)
+    draw = ImageDraw.Draw(imgPil)
+    font = ImageFont.truetype('fonts/NanumGothic.ttf', fontSize)
+    draw.text(pos, txt, font=font, fill=fontColor)
 
-
+    return np.array(imgPil)
