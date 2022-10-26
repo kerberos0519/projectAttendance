@@ -111,6 +111,20 @@ def updateAttendance(id, name):
     # print('[End] update table')
 
     dbClose()
+
+# 모든 출석 데이터 삭제(테스트 용)
+def deleteAttendance():
+    dbOpen()
+
+    # print('[Start] delete table')
+    query = "DELETE FROM attendance"
+    print('\tQuery : '+ query)
+    cur.execute(query)
+    # db 저장
+    conn.commit
+    # print('[End] delete table')
+
+    dbClose()
     
 # 모든 출석 데이터 들고 오기
 def selectAttendanceAll():
@@ -198,3 +212,7 @@ def doAttend(name, dt):
         raise Exception('Alreay exist in today')
 
     dbClose()
+
+
+if __name__ == '__main__':
+    deleteAttendance()

@@ -29,7 +29,7 @@ def attendance_list(request):
         rows = db.selectAttendanceByDate(dtYmd)
         print(rows)
 
-        peopleList = ['김준호', '정이', '윤예원', '김시민', '정현준', '이중석', '허호준', '정현재']
+        peopleList = ['김준호', '김재수', '정이', '윤예원', '김시민', '정현준', '이중석', '허호준', '정현재']
 
         attendanceList = []
 
@@ -86,7 +86,7 @@ def attendance_list_json(request):
         rows = db.selectAttendanceByDate(dtYmd)
         print(rows)
 
-        peopleList = ['김준호', '정이', '윤예원', '김시민', '정현준', '이중석', '허호준', '정현재']
+        peopleList = ['김준호', '김재수', '정이', '윤예원', '김시민', '정현준', '이중석', '허호준', '정현재']
 
         attendanceList = []
 
