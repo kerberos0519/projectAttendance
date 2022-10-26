@@ -114,16 +114,17 @@
                     strHtml += '<td>'+ o.name +'</td>'
                     strHtml += '<td>'+ o.dt +'</td>'
                     //strHtml += '<td>'+ o.attendanceYn +'</td>'
+                    strHtml += '<td>'
                     if(o.attendanceYn == '1') {
-                        strHtml += '<td><span class="badge rounded-pill text-bg-primary">출석</span>'
+                        strHtml += '<span class="badge rounded-pill text-bg-primary">출석</span>'
                     } else if(o.attendanceYn == '2') {
-                        strHtml += '<td><span class="badge rounded-pill text-bg-warning">지각</span>'
+                        strHtml += '<span class="badge rounded-pill text-bg-warning">지각</span>'
                     } else if(o.attendanceYn == '3') {
-                        strHtml += '<td><span class="badge rounded-pill text-bg-danger">결석</span>'
+                        strHtml += '<span class="badge rounded-pill text-bg-danger">결석</span>'
                     } else {
-                        strHtml += '<td><span class="badge rounded-pill text-bg-secondary">미출석</span>'
+                        strHtml += '<span class="badge rounded-pill text-bg-secondary">미출석</span>'
                     }
-                    
+                    strHtml += '</td>'
                     strHtml += '</tr>'
                 }
                 strHtml += '</table>'
